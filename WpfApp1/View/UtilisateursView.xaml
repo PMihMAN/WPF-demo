@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="WpfApp1.View.UtilisateursView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.View"
+      xmlns:converter="clr-namespace:WpfApp1.Converter"
+   
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+  >
+    <UserControl.Resources>
+        <converter:BoolDisplayConverter x:Key="BoolDisplayConverter" />
+        <converter:BoolDisplayAddConverter x:Key="BoolDisplayAddConverter" />
+
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250px"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid CanUserAddRows="False" Grid.Column="0" Name="dgUsers" SelectedItem="{Binding SelectedUtilisateurs}" ItemsSource="{Binding Users}" SelectionChanged="dgUsers_SelectionChanged"/>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="101*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+
+                    <Label  Content="Prenom" />
+                    <TextBox Text="{Binding SelectedUtilisateurs.prenom}" x:Name="Prenom" Width="100px" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" />
+
+                </StackPanel>
+
+                <StackPanel  Grid.Column="1">
+                    <Label  Content="Nom" />
+                    <TextBox x:Name="Nom" Width="100px" HorizontalAlignment="Left"  TextWrapping="Wrap"  Text="{Binding SelectedUtilisateurs.nom}" VerticalAlignment="Top" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1"  Grid.IsSharedSizeScope="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="Buttons"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="Buttons"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="Buttons"/>
+                </Grid.ColumnDefinitions>
+                <Button    Grid.Column="0" Content="Ajouté" Command="{Binding SaveCommand}">
+                    <!--<Button.IsEnabled>
+                        <MultiBinding Converter=""="{StaticResource BoolDisplayAddConverter}">
+                            <Binding Path="SelectedUtilisateurs.id" />
+                        </MultiBinding>
+                    </Button.IsEnabled>-->
+                </Button>
+                <Button IsEnabled="{Binding SelectedUtilisateurs,Converter={StaticResource BoolDisplayConverter}}" Grid.Column="1" Content="Supprimé" Command="{Binding DeleteCommand}"/>
+                <Button Grid.Column="2" Content="Vidé" Command="{Binding ClearCommand}"/>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>
